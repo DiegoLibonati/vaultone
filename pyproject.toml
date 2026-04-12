@@ -1,13 +1,13 @@
 
 [project]
-name = "record-audio-program"
+name = "vaultone"
 version = "1.0.0"
-description = "I made a program in python with tkinter as the user interface that allows the user to enter the name of a future audio, start recording an audio and save it when the stop button is tapped. Basically I made a voice recorder with python and tkinter."
+description = "**Vaultone** is a lightweight desktop voice recorder built with Python and Tkinter. It lets you capture audio directly from your microphone and save it as a WAV file with a name you choose — no configuration, no accounts, no cloud."
 requires-python = ">=3.11"
 
 [tool.pytest.ini_options]
 pythonpath = "."
-testpaths = ["test"]
+testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"

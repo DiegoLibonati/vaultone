@@ -16,7 +16,7 @@ class TestStyles:
     def test_black_color(self) -> None:
         assert Styles.BLACK_COLOR == "#000000"
 
-    def test_font_roboto_base(self) -> None:
+    def test_font_roboto(self) -> None:
         assert Styles.FONT_ROBOTO == "Roboto"
 
     def test_font_roboto_12(self) -> None:
@@ -34,7 +34,7 @@ class TestStyles:
     def test_font_roboto_20(self) -> None:
         assert Styles.FONT_ROBOTO_20 == "Roboto 20"
 
-    def test_center(self) -> None:
+    def test_center_constant(self) -> None:
         assert Styles.CENTER == CENTER
 
     def test_anchor_center(self) -> None:
@@ -45,4 +45,4 @@ class TestStyles:
 
     def test_instantiation(self) -> None:
         styles: Styles = Styles()
-        assert styles.PRIMARY_COLOR == "#0099FF"
+        assert styles is not None

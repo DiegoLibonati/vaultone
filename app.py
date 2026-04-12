@@ -12,7 +12,7 @@ from src.models.audio_model import AudioModel
 from src.ui.interface_app import InterfaceApp
 from src.utils.error_handler import error_handler
 
-logger = setup_logger("record-audio-program - app.py")
+logger = setup_logger("vaultone - app.py")
 
 CONFIG_MAP = {
     "development": DevelopmentConfig,

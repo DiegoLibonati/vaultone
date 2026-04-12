@@ -1,4 +1,4 @@
-# Record Audio Program
+# Vaultone
 
 ## Educational Purpose
 
@@ -24,7 +24,15 @@ The main goal is to explore and demonstrate best practices, patterns, and techno
 
 ## Description
 
-I made a program in python with tkinter as the user interface that allows the user to enter the name of a future audio, start recording an audio and save it when the stop button is tapped. Basically I made a voice recorder with python and tkinter.
+**Vaultone** is a lightweight desktop voice recorder built with Python and Tkinter. It lets you capture audio directly from your microphone and save it as a WAV file with a name you choose — no configuration, no accounts, no cloud.
+
+The workflow is intentionally minimal: type a filename, hit **Start Record**, speak, then hit **Stop Record**. The moment you stop, Vaultone writes the file to disk and displays the total recording duration. That's the entire surface area of the app.
+
+Under the hood, recording runs on a dedicated background thread using PyAudio, so the UI stays responsive the whole time. A second timer thread drives the live elapsed-time counter shown in the interface while you record. Both threads are cleanly joined when you stop, ensuring no audio data is lost and no resources are leaked.
+
+The app follows an MVC-like structure: `AudioModel` owns the PyAudio stream and all threading logic; `InterfaceApp` wires user actions to model calls; `MainView` and `RecordControls` handle everything the user sees and interacts with. Configuration is environment-aware — switching between `development`, `production`, and `testing` modes via an `ENVIRONMENT` env variable adjusts debug flags and logging behavior without touching code.
+
+The project can be packaged into a fully standalone executable for Windows, Linux, or Mac using PyInstaller, making it distributable without requiring Python to be installed on the target machine.
 
 ## Technologies used
 
@@ -65,11 +73,7 @@ pyinstaller==6.16.0
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/Record-Audio-Program`](https://www.diegolibonati.com.ar/#/project/Record-Audio-Program)
-
-## Video
-
-https://user-images.githubusercontent.com/99032604/198900280-02b26523-e7b3-4c0a-91f5-c325b49270ea.mp4
+[`https://www.diegolibonati.com.ar/#/project/vaultone`](https://www.diegolibonati.com.ar/#/project/vaultone)
 
 ## Testing
 
