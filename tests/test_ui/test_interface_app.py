@@ -1,5 +1,4 @@
 import tkinter as tk
-from collections.abc import Generator
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -20,7 +19,7 @@ def mock_audio() -> MagicMock:
 
 
 @pytest.fixture
-def interface_app(root: tk.Tk, mock_audio: MagicMock) -> Generator[InterfaceApp, None, None]:
+def interface_app(root: tk.Tk, mock_audio: MagicMock) -> InterfaceApp:
     blank: tk.PhotoImage = tk.PhotoImage(master=root, width=1, height=1)
     with patch("src.ui.interface_app.PhotoImage", return_value=blank):
         app: InterfaceApp = InterfaceApp(

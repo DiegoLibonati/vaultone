@@ -1,5 +1,4 @@
 import tkinter as tk
-from collections.abc import Generator
 from tkinter import DISABLED, NORMAL
 
 import pytest
@@ -9,7 +8,7 @@ from src.ui.styles import Styles
 
 
 @pytest.fixture
-def record_controls(root: tk.Tk) -> Generator[RecordControls, None, None]:
+def record_controls(root: tk.Tk) -> RecordControls:
     controls: RecordControls = RecordControls(
         parent=root,
         styles=Styles(),

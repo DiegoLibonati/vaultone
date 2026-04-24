@@ -1,5 +1,4 @@
 import tkinter as tk
-from collections.abc import Generator
 
 import pytest
 
@@ -13,7 +12,7 @@ def blank_image(root: tk.Tk) -> tk.PhotoImage:
 
 
 @pytest.fixture
-def main_view(root: tk.Tk, blank_image: tk.PhotoImage) -> Generator[MainView, None, None]:
+def main_view(root: tk.Tk, blank_image: tk.PhotoImage) -> MainView:
     view: MainView = MainView(
         root=root,
         styles=Styles(),
