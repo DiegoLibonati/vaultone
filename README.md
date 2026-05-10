@@ -6,22 +6,6 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started
-
-1. Clone the repository
-2. Go to the repository folder and execute: `python -m venv venv`
-3. Execute in Windows: `venv\Scripts\activate`
-4. Execute in Linux/Mac: `source venv/bin/activate`
-5. Execute: `pip install -r requirements.txt`
-6. Execute: `pip install -r requirements.dev.txt`
-7. Execute: `pip install -r requirements.test.txt`
-8. Use `python app.py` or `python -m src` to execute the program
-
-### Pre-Commit for Development
-
-1. Once you're inside the virtual environment, let's install the hooks specified in the pre-commit. Execute: `pre-commit install`
-2. Now every time you try to commit, the pre-commit lint will run. If you want to do it manually, you can run the command: `pre-commit run --all-files`
-
 ## Description
 
 **Vaultone** is a lightweight desktop voice recorder built with Python and Tkinter. It lets you capture audio directly from your microphone and save it as a WAV file with a name you choose — no configuration, no accounts, no cloud.
@@ -40,6 +24,8 @@ The project can be packaged into a fully standalone executable for Windows, Linu
 2. Tkinter
 
 ## Libraries used
+
+The project splits its dependencies across separate requirements files so each environment (runtime, development, testing, build) only installs what it needs.
 
 #### Requirements.txt
 
@@ -71,11 +57,38 @@ pytest-xdist==3.5.0
 pyinstaller==6.16.0
 ```
 
-## Portfolio Link
+## Getting Started
 
-[`https://www.diegolibonati.com.ar/#/project/vaultone`](https://www.diegolibonati.com.ar/#/project/vaultone)
+Follow these steps to set up a local development environment and run the app.
+
+1. Clone the repository
+2. Go to the repository folder and execute: `python -m venv venv`
+3. Execute in Windows: `venv\Scripts\activate`
+4. Execute in Linux/Mac: `source venv/bin/activate`
+5. Execute: `pip install -r requirements.txt`
+6. Execute: `pip install -r requirements.dev.txt`
+7. Execute: `pip install -r requirements.test.txt`
+8. Copy the example env file into the active one the app will read: `.env.example.dev` → `.env`
+9. Use `python app.py` or `python -m src` to execute the program
+
+### Pre-Commit for Development
+
+1. Once you're inside the virtual environment, let's install the hooks specified in the pre-commit. Execute: `pre-commit install`
+2. Now every time you try to commit, the pre-commit lint will run. If you want to do it manually, you can run the command: `pre-commit run --all-files`
+
+## Env Keys
+
+The `.env` file you created in the setup is what configures the runtime. These are the keys it accepts:
+
+1. `ENVIRONMENT`: Defines the application environment. Accepts `development`, `production`, or `testing`.
+
+```
+ENVIRONMENT=development
+```
 
 ## Testing
+
+With the dev environment ready, you can run the test suite to verify everything works end to end.
 
 1. Go to the repository folder
 2. Execute: `python -m venv venv`
@@ -85,9 +98,18 @@ pyinstaller==6.16.0
 6. Execute: `pip install -r requirements.test.txt`
 7. Execute: `pytest --log-cli-level=INFO`
 
+## Security Audit
+
+Before shipping a build, scan your dependencies for known vulnerabilities using **pip-audit**.
+
+1. Go to the repository folder
+2. Activate your virtual environment
+3. Execute: `pip install -r requirements.dev.txt`
+4. Execute: `pip-audit -r requirements.txt`
+
 ## Build
 
-You can generate a standalone executable (`.exe` on Windows, or binary on Linux/Mac) using **PyInstaller**.
+Once tests pass and dependencies are clean, you can generate a standalone executable (`.exe` on Windows, or binary on Linux/Mac) using **PyInstaller**.
 
 ### Windows
 
@@ -107,23 +129,10 @@ Alternatively, you can run the helper script: `build.bat`
 
 Alternatively, you can run the helper script: `./build.sh`
 
-## Security Audit
-
-You can check your dependencies for known vulnerabilities using **pip-audit**.
-
-1. Go to the repository folder
-2. Activate your virtual environment
-3. Execute: `pip install -r requirements.dev.txt`
-4. Execute: `pip-audit -r requirements.txt`
-
-## Env Keys
-
-1. `ENVIRONMENT`: Defines the application environment. Accepts `development`, `production`, or `testing`.
-
-```
-ENVIRONMENT=development
-```
-
 ## Known Issues
 
 None at the moment.
+
+## Portfolio Link
+
+[`https://www.diegolibonati.com.ar/#/project/vaultone`](https://www.diegolibonati.com.ar/#/project/vaultone)
