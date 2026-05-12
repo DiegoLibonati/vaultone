@@ -78,7 +78,7 @@ class TestBaseDialog:
 
     def test_open_unknown_type_calls_showerror(self) -> None:
         dialog: BaseDialog = BaseDialog()
-        dialog.dialog_type = "UNKNOWN"  # type: ignore[assignment]
+        dialog.dialog_type = "UNKNOWN"
         with patch.object(messagebox, "showerror") as mock_showerror:
             dialog.open()
             mock_showerror.assert_called_once_with(BaseDialog.ERROR, MESSAGE_NOT_FOUND_DIALOG_TYPE)
