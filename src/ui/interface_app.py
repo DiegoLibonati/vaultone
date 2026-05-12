@@ -10,8 +10,14 @@ from src.utils.dialogs import ValidationDialogError
 
 
 class InterfaceApp:
-    def __init__(self, root: Tk, audio: AudioModel, config: DefaultConfig, styles: Styles = Styles()) -> None:
-        self._styles = styles
+    def __init__(
+        self,
+        root: Tk,
+        audio: AudioModel,
+        config: DefaultConfig,
+        styles: Styles | None = None,
+    ) -> None:
+        self._styles = styles if styles is not None else Styles()
         self._config = config
         self._root = root
         self._root.title("Vaultone")
@@ -54,7 +60,8 @@ class InterfaceApp:
         filename = self._main_view.get_filename()
 
         self._main_view.set_recording_state(recording=False)
-        self._main_view.set_status(f"Finished in: {self._parse_timer(seconds=self.audio.seconds, minutes=self.audio.minutes)}. {filename} saved.")
+        elapsed = self._parse_timer(seconds=self.audio.seconds, minutes=self.audio.minutes)
+        self._main_view.set_status(f"Finished in: {elapsed}. {filename} saved.")
 
         ok = self.audio.stop_record(filename=filename)
 
@@ -65,7 +72,8 @@ class InterfaceApp:
 
     def _set_timer(self) -> None:
         if not self.audio.end_audio and self._main_view.is_recording():
-            self._main_view.set_status(self._parse_timer(seconds=self.audio.seconds, minutes=self.audio.minutes))
+            elapsed = self._parse_timer(seconds=self.audio.seconds, minutes=self.audio.minutes)
+            self._main_view.set_status(elapsed)
             self._root.after(1000, self._set_timer)
 
     @staticmethod

@@ -1,4 +1,4 @@
-from tkinter import Frame, Label, PhotoImage, StringVar, Tk
+from tkinter import Frame, Label, Misc, PhotoImage, StringVar
 
 from src.ui.components.record_controls import RecordControls
 from src.ui.styles import Styles
@@ -7,7 +7,7 @@ from src.ui.styles import Styles
 class MainView(Frame):
     def __init__(
         self,
-        root: Tk,
+        root: Misc,
         styles: Styles,
         img_record_off: PhotoImage,
         img_record_on: PhotoImage,

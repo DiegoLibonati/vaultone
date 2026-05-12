@@ -83,26 +83,96 @@ class TestInterfaceAppPerformStartRecord:
         with pytest.raises(ValidationDialogError):
             interface_app._perform_start_record()
 
-    def test_valid_filename_calls_audio_start_record(self, interface_app: InterfaceApp, mock_audio: MagicMock) -> None:
+    def test_valid_filename_calls_audio_start_record(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
         interface_app._main_view.set_filename("my_audio")
         interface_app._perform_start_record()
         mock_audio.start_record.assert_called_once()
 
-    def test_valid_filename_sets_recording_state(self, interface_app: InterfaceApp, mock_audio: MagicMock) -> None:
+    def test_valid_filename_sets_recording_state(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
         interface_app._main_view.set_filename("my_audio")
         interface_app._perform_start_record()
         assert interface_app._main_view.is_recording() is True
 
 
 class TestInterfaceAppPerformStopRecord:
-    def test_stop_record_calls_audio_stop_record(self, interface_app: InterfaceApp, mock_audio: MagicMock) -> None:
+    def test_stop_record_calls_audio_stop_record(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
         mock_audio.stop_record.return_value = True
         interface_app._main_view.set_filename("my_audio")
         interface_app._perform_stop_record()
         mock_audio.stop_record.assert_called_once_with(filename="my_audio")
 
-    def test_stop_record_sets_not_recording(self, interface_app: InterfaceApp, mock_audio: MagicMock) -> None:
+    def test_stop_record_sets_not_recording(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
         mock_audio.stop_record.return_value = True
         interface_app._main_view.set_recording_state(recording=True)
         interface_app._perform_stop_record()
         assert interface_app._main_view.is_recording() is False
+
+
+class TestInterfaceAppSetTimer:
+    def test_does_not_schedule_when_not_recording(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
+        mock_audio.end_audio = False
+        interface_app._main_view.set_recording_state(recording=False)
+
+        with patch.object(interface_app._root, "after") as mock_after:
+            interface_app._set_timer()
+
+        mock_after.assert_not_called()
+
+    def test_does_not_schedule_when_audio_ended(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
+        mock_audio.end_audio = True
+        interface_app._main_view.set_recording_state(recording=True)
+
+        with patch.object(interface_app._root, "after") as mock_after:
+            interface_app._set_timer()
+
+        mock_after.assert_not_called()
+
+    def test_schedules_next_call_when_recording(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
+        mock_audio.end_audio = False
+        mock_audio.seconds = 5
+        mock_audio.minutes = 1
+        interface_app._main_view.set_recording_state(recording=True)
+
+        with patch.object(interface_app._root, "after") as mock_after:
+            interface_app._set_timer()
+
+        mock_after.assert_called_once_with(1000, interface_app._set_timer)
+
+    def test_updates_status_text_when_recording(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
+        mock_audio.end_audio = False
+        mock_audio.seconds = 5
+        mock_audio.minutes = 1
+        interface_app._main_view.set_recording_state(recording=True)
+
+        with patch.object(interface_app._root, "after"):
+            interface_app._set_timer()
+
+        assert interface_app._main_view._status_text.get() == "01:05"
+
+    def test_does_not_update_status_when_not_recording(
+        self, interface_app: InterfaceApp, mock_audio: MagicMock
+    ) -> None:
+        mock_audio.end_audio = False
+        interface_app._main_view.set_recording_state(recording=False)
+        interface_app._main_view.set_status("idle")
+
+        with patch.object(interface_app._root, "after"):
+            interface_app._set_timer()
+
+        assert interface_app._main_view._status_text.get() == "idle"
