@@ -6,7 +6,7 @@ description = "Vaultone is a lightweight desktop voice recorder built with Pytho
 requires-python = ">=3.11"
 dependencies = [
     "PyAudio==0.2.12",
-    "python-dotenv==1.0.1",
+    "python-dotenv==1.2.2",
 ]
 
 [project.optional-dependencies]
@@ -16,7 +16,7 @@ dev = [
     "ruff==0.11.12",
 ]
 test = [
-    "pytest==8.4.2",
+    "pytest==9.0.3",
     "pytest-env==1.1.5",
     "pytest-cov==4.1.0",
     "pytest-timeout==2.3.1",
