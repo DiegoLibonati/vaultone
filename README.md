@@ -109,7 +109,7 @@ Before shipping a build, scan your dependencies for known vulnerabilities using 
 
 Once tests pass and dependencies are clean, you can generate a standalone executable (`.exe` on Windows, or binary on Linux/Mac) using **PyInstaller**.
 
-> **Production `.env` warning:** `app.spec` bundles the repo-level `.env` file into the final executable. The `.env` you use for local development must **not** be reused for a production build — it contains development values (e.g. `ENVIRONMENT=development`). Before building for production, replace the contents of `.env` with the production values (or maintain a separate `.env.prod` and copy/symlink it to `.env` only for the build step). Never commit a `.env` file containing real secrets to the repository.
+> **Production `.env` warning:** `app.spec` bundles the repo-level `.env` file into the final executable. The `.env` you use for local development must **not** be reused for a production build — it contains development values (e.g. `ENVIRONMENT=development`). Before building for production, replace the contents of `.env` with the production values. Never commit a `.env` file containing real secrets to the repository.
 
 ### Windows
 
