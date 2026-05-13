@@ -52,11 +52,11 @@ jobs:
       - name: Upgrade pip
         run: pip install --upgrade pip
 
+      - name: Install PortAudio and virtual display
+        run: sudo apt-get install -y portaudio19-dev python3-tk xvfb
+
       - name: Install test dependencies
         run: pip install -e ".[test]"
-
-      - name: Install Tkinter and virtual display
-        run: sudo apt-get install -y python3-tk xvfb
 
       - name: Run tests
         run: xvfb-run python -m pytest --tb=short
