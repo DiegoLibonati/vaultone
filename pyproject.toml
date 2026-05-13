@@ -5,25 +5,25 @@ version = "1.0.0"
 description = "Vaultone is a lightweight desktop voice recorder built with Python and Tkinter."
 requires-python = ">=3.11"
 dependencies = [
-    "PyAudio>=0.2.12",
-    "python-dotenv>=1.0",
+    "PyAudio==0.2.12",
+    "python-dotenv==1.0.1",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pre-commit>=4.0",
-    "pip-audit>=2.7",
-    "ruff>=0.11",
+    "pre-commit==4.3.0",
+    "pip-audit==2.7.3",
+    "ruff==0.11.12",
 ]
 test = [
-    "pytest>=8.0",
-    "pytest-env>=1.1",
-    "pytest-cov>=4.1",
-    "pytest-timeout>=2.3",
-    "pytest-xdist>=3.5",
+    "pytest==8.4.2",
+    "pytest-env==1.1.5",
+    "pytest-cov==4.1.0",
+    "pytest-timeout==2.3.1",
+    "pytest-xdist==3.5.0",
 ]
 build = [
-    "pyinstaller>=6.0",
+    "pyinstaller==6.16.0",
 ]
 
 [tool.pytest.ini_options]

@@ -25,23 +25,24 @@ The project can be packaged into a fully standalone executable for Windows, Linu
 
 ## Libraries used
 
-The project splits its dependencies across separate requirements files so each environment (runtime, development, testing, build) only installs what it needs.
+All dependencies are declared in `pyproject.toml`. The `requirements*.txt` files are thin wrappers that delegate to the corresponding extras so each environment only installs what it needs.
 
-#### Requirements.txt
+#### Runtime (`[project.dependencies]`)
 
 ```
 PyAudio==0.2.12
 python-dotenv==1.0.1
 ```
 
-#### Requirements.dev.txt
+#### Dev (`[project.optional-dependencies] dev`)
+
 ```
 pre-commit==4.3.0
 pip-audit==2.7.3
 ruff==0.11.12
 ```
 
-#### Requirements.test.txt
+#### Test (`[project.optional-dependencies] test`)
 
 ```
 pytest==8.4.2
@@ -51,7 +52,7 @@ pytest-timeout==2.3.1
 pytest-xdist==3.5.0
 ```
 
-#### Requirements.build.txt
+#### Build (`[project.optional-dependencies] build`)
 
 ```
 pyinstaller==6.16.0
@@ -65,11 +66,9 @@ Follow these steps to set up a local development environment and run the app.
 2. Go to the repository folder and execute: `python -m venv venv`
 3. Execute in Windows: `venv\Scripts\activate`
 4. Execute in Linux/Mac: `source venv/bin/activate`
-5. Execute: `pip install -r requirements.txt`
-6. Execute: `pip install -r requirements.dev.txt`
-7. Execute: `pip install -r requirements.test.txt`
-8. Copy the example env file into the active one the app will read: `.env.example.dev` → `.env`
-9. Use `python app.py` or `python -m src` to execute the program
+5. Execute: `pip install -e .[dev,test]`
+6. Copy the example env file into the active one the app will read: `.env.example.dev` → `.env`
+7. Use `python app.py` or `python -m src` to execute the program
 
 ### Pre-Commit for Development
 
@@ -94,9 +93,8 @@ With the dev environment ready, you can run the test suite to verify everything 
 2. Execute: `python -m venv venv`
 3. Execute in Windows: `venv\Scripts\activate`
 4. Execute in Linux/Mac: `source venv/bin/activate`
-5. Execute: `pip install -r requirements.txt`
-6. Execute: `pip install -r requirements.test.txt`
-7. Execute: `pytest --log-cli-level=INFO`
+5. Execute: `pip install -e .[test]`
+6. Execute: `pytest --log-cli-level=INFO`
 
 ## Security Audit
 
@@ -104,7 +102,7 @@ Before shipping a build, scan your dependencies for known vulnerabilities using 
 
 1. Go to the repository folder
 2. Activate your virtual environment
-3. Execute: `pip install -r requirements.dev.txt`
+3. Execute: `pip install -e .[dev]`
 4. Execute: `pip-audit -r requirements.txt`
 
 ## Build
@@ -117,7 +115,7 @@ Once tests pass and dependencies are clean, you can generate a standalone execut
 
 1. Go to the repository folder
 2. Activate your virtual environment: `venv\Scripts\activate`
-3. Install build dependencies: `pip install -r requirements.build.txt`
+3. Install build dependencies: `pip install -e .[build]`
 4. Create the executable: `pyinstaller app.spec`
 
 Alternatively, you can run the helper script: `build.bat`
@@ -126,7 +124,7 @@ Alternatively, you can run the helper script: `build.bat`
 
 1. Go to the repository folder
 2. Activate your virtual environment: `source venv/bin/activate`
-3. Install build dependencies: `pip install -r requirements.build.txt`
+3. Install build dependencies: `pip install -e .[build]`
 4. Create the executable: `pyinstaller app.spec`
 
 Alternatively, you can run the helper script: `./build.sh`
