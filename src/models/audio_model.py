@@ -18,13 +18,13 @@ class AudioModel:
         self.__seconds: int = 0
         self.__minutes: int = 0
 
-        self.__stream: pyaudio.Stream = None
+        self.__stream: pyaudio.Stream | None = None
         self.__py_audio: pyaudio.PyAudio = pyaudio.PyAudio()
         self.__frames: list[bytes] = []
 
         self.__end_audio: bool = False
-        self.__recording_thread: threading.Thread = None
-        self.__timer_thread: threading.Thread = None
+        self.__recording_thread: threading.Thread | None = None
+        self.__timer_thread: threading.Thread | None = None
 
     @property
     def chunk(self) -> int:
@@ -51,7 +51,7 @@ class AudioModel:
         return self.__minutes
 
     @property
-    def stream(self) -> pyaudio.Stream:
+    def stream(self) -> pyaudio.Stream | None:
         return self.__stream
 
     @property
@@ -67,11 +67,11 @@ class AudioModel:
         return self.__end_audio
 
     @property
-    def recording_thread(self) -> threading.Thread:
+    def recording_thread(self) -> threading.Thread | None:
         return self.__recording_thread
 
     @property
-    def timer_thread(self) -> threading.Thread:
+    def timer_thread(self) -> threading.Thread | None:
         return self.__timer_thread
 
     def start_record(self, input: bool = True) -> None:
@@ -83,15 +83,18 @@ class AudioModel:
             input=input,
         )
 
-        self.__recording_thread = threading.Thread(target=self._add_frame)
-        self.__timer_thread = threading.Thread(target=self._run_timer)
+        recording_thread = threading.Thread(target=self._add_frame)
+        timer_thread = threading.Thread(target=self._run_timer)
+        self.__recording_thread = recording_thread
+        self.__timer_thread = timer_thread
 
-        self.recording_thread.start()
-        self.timer_thread.start()
+        recording_thread.start()
+        timer_thread.start()
 
     def _add_frame(self) -> None:
+        assert self.__stream is not None
         while not self.end_audio:
-            data = self.stream.read(self.chunk)
+            data = self.__stream.read(self.chunk)
             self.__frames.append(data)
 
     def stop_record(self, filename: str) -> bool:
@@ -101,7 +104,7 @@ class AudioModel:
 
         self.__end_audio = True
 
-        if not self.recording_thread or not self.timer_thread:
+        if not self.recording_thread or not self.timer_thread or not self.stream:
             self._reset_state()
             raise InternalDialogError(message=MESSAGE_ERROR_AUDIO_NOT_STARTED)
 
@@ -160,7 +163,7 @@ class AudioModel:
         self.__recording_thread = None
         self.__timer_thread = None
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return (
             f"Chunk: {self.chunk}\n"
             f"SampleFormat: {self.sample_format}\n"

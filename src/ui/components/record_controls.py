@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from tkinter import DISABLED, NORMAL, Button, Entry, Frame, Misc, StringVar
 
 from src.ui.styles import Styles
@@ -8,8 +9,8 @@ class RecordControls(Frame):
         self,
         parent: Misc,
         styles: Styles,
-        on_start: callable,
-        on_stop: callable,
+        on_start: Callable[[], None],
+        on_stop: Callable[[], None],
     ) -> None:
         super().__init__(parent, bg=styles.PRIMARY_COLOR)
         self._styles = styles

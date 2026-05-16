@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from tkinter import Frame, Label, Misc, PhotoImage, StringVar
 
 from src.ui.components.record_controls import RecordControls
@@ -11,8 +12,8 @@ class MainView(Frame):
         styles: Styles,
         img_record_off: PhotoImage,
         img_record_on: PhotoImage,
-        on_start: callable,
-        on_stop: callable,
+        on_start: Callable[[], None],
+        on_stop: Callable[[], None],
     ) -> None:
         super().__init__(root, bg=styles.PRIMARY_COLOR)
         self._styles = styles
