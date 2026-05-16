@@ -61,8 +61,8 @@ jobs:
       - name: Install test dependencies
         run: pip install -e ".[test]"
 
-      - name: Install Tkinter and virtual display
-        run: sudo apt-get install -y python3-tk xvfb
+      - name: Install Tkinter, PortAudio and virtual display
+        run: sudo apt-get install -y python3-tk xvfb libportaudio2
 
       - name: Run tests
         run: xvfb-run python -m pytest --tb=short
@@ -83,6 +83,9 @@ jobs:
 
       - name: Install build dependencies
         run: pip install -e ".[build]"
+
+      - name: Install PortAudio
+        run: sudo apt-get install -y libportaudio2
 
       - name: Create dummy .env for CI
         run: cp .env.example.prod .env
