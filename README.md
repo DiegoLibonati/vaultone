@@ -193,7 +193,7 @@ When a push contains multiple commits, the highest applicable bump wins (a singl
 
 ### Skipping a release
 
-If you need to push a change to `main` without producing a release (e.g. tweaking job names in the workflow, fixing a typo in the README), append `[skip release]` to the commit message. `lint-and-audit` and `test` still run; the Linux smoke `build`, `prepare-release`, `build-windows-exe` and `publish-release` are all skipped.
+If you need to push a change to `main` without producing a release (e.g. tweaking job names in the workflow, fixing a typo in the README), append `[skip release]` to the commit message. `lint-and-audit`, `test` and the Linux smoke `build` still run; `prepare-release`, `build-windows-exe` and `publish-release` are all skipped.
 
 ```bash
 git commit -m "ci: rename build job for clarity [skip release]"
